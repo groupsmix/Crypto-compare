@@ -1,0 +1,21 @@
+{
+  "name": "كريبتو قارن - أفضل منصات تداول العملات الرقمية",
+  "short_name": "كريبتو قارن",
+  "description": "قارن بين أفضل منصات تداول العملات الرقمية بمساعدة الذكاء الاصطناعي",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a1a",
+  "theme_color": "#f7931a",
+  "orientation": "portrait-primary",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "education"]
+}
