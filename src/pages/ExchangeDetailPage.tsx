@@ -15,8 +15,36 @@ export default function ExchangeDetailPage() {
     );
   }
 
+  const reviewSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Review',
+    itemReviewed: {
+      '@type': 'Organization',
+      name: exchange.name,
+      description: exchange.description,
+    },
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: exchange.rating,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    author: {
+      '@type': 'Organization',
+      name: 'Crypto Compare',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Crypto Compare',
+    },
+  };
+
   return (
     <div className="min-h-screen py-24 px-4">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
+      />
       <div className="max-w-5xl mx-auto">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-text-secondary mb-8">

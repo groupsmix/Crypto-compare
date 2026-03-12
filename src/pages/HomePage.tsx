@@ -1,9 +1,24 @@
 import { Link } from 'react-router-dom';
-import { TrendingUp, Shield, Zap, Brain, ArrowLeft, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { TrendingUp, Shield, Zap, Brain, ArrowLeft, Star, ArrowDownUp, Calculator, Columns3 } from 'lucide-react';
 import ExchangeCard from '@/components/ExchangeCard';
 import FearGreedGauge from '@/components/FearGreedGauge';
 import { exchanges } from '@/data/exchanges';
 import { useCryptoPrices } from '@/hooks/useCryptoPrices';
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.1, duration: 0.5, ease: [0, 0, 0.2, 1] as const },
+  }),
+} as const;
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
 
 export default function HomePage() {
   const { prices } = useCryptoPrices();
@@ -12,30 +27,39 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
+      <section className="relative py-20 md:py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
         <div className="absolute top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute bottom-10 left-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
         
         <div className="max-w-7xl mx-auto relative">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-6">
+          <motion.div
+            className="text-center max-w-4xl mx-auto"
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+          >
+            <motion.div
+              variants={fadeInUp}
+              custom={0}
+              className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-6"
+            >
               <Zap className="w-4 h-4 text-primary" />
               <span className="text-primary text-sm font-medium">أسعار حية - محدثة كل دقيقة</span>
-            </div>
+            </motion.div>
             
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            <motion.h1 variants={fadeInUp} custom={1} className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
               <span className="text-white">اختر</span>{' '}
               <span className="gradient-text">أفضل منصة تداول</span>{' '}
               <span className="text-white">بذكاء</span>
-            </h1>
+            </motion.h1>
             
-            <p className="text-xl text-text-secondary mb-8 leading-relaxed max-w-2xl mx-auto">
+            <motion.p variants={fadeInUp} custom={2} className="text-xl text-text-secondary mb-8 leading-relaxed max-w-2xl mx-auto">
               قارن بين أفضل منصات تداول العملات الرقمية بمساعدة الذكاء الاصطناعي. 
               مراجعات شاملة، أسعار حية، ومستشار ذكي يساعدك في الاختيار.
-            </p>
+            </motion.p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.div variants={fadeInUp} custom={3} className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/recommender"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-primary to-primary-dark text-white font-bold text-lg hover:opacity-90 transition-all animate-pulse-glow"
@@ -50,28 +74,83 @@ export default function HomePage() {
               >
                 قارن المنصات
               </Link>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* Stats Section */}
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 gap-4"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            variants={staggerContainer}
+          >
             {[
               { label: 'منصة مراجعة', value: '6+', icon: Shield },
               { label: 'مستخدم حول العالم', value: '285M+', icon: TrendingUp },
               { label: 'عملة رقمية', value: '1800+', icon: Zap },
               { label: 'مقال تعليمي', value: '7+', icon: Star },
-            ].map((stat) => (
-              <div key={stat.label} className="glass-card p-6 text-center">
+            ].map((stat, i) => (
+              <motion.div key={stat.label} variants={fadeInUp} custom={i} className="glass-card p-6 text-center hover:scale-[1.03] transition-transform duration-300">
                 <stat.icon className="w-8 h-8 text-primary mx-auto mb-3" />
                 <div className="text-2xl md:text-3xl font-bold text-white mb-1">{stat.value}</div>
                 <div className="text-sm text-text-secondary">{stat.label}</div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Tools Section */}
+      <section className="py-12 px-4">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            className="text-center mb-10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">أدوات مجانية لمساعدتك</h2>
+            <p className="text-text-secondary max-w-xl mx-auto">
+              مجموعة أدوات متكاملة لاتخاذ قرارات تداول أفضل
+            </p>
+          </motion.div>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            variants={staggerContainer}
+          >
+            {[
+              { icon: Columns3, title: 'مقارنة جنب لجنب', desc: 'قارن حتى 3 منصات في جدول تفصيلي واحد', link: '/compare/side-by-side', color: 'from-primary to-accent' },
+              { icon: Calculator, title: 'حاسبة الرسوم', desc: 'احسب كم ستدفع رسوم سنوياً على كل منصة', link: '/calculator', color: 'from-accent to-success' },
+              { icon: ArrowDownUp, title: 'محول العملات', desc: 'حوّل بين العملات الرقمية والمحلية بأسعار حية', link: '/converter', color: 'from-success to-primary' },
+              { icon: Brain, title: 'المستشار الذكي', desc: 'أجب على 4 أسئلة واحصل على توصية مخصصة', link: '/recommender', color: 'from-primary to-warning' },
+            ].map((tool, i) => (
+              <motion.div key={tool.title} variants={fadeInUp} custom={i}>
+                <Link
+                  to={tool.link}
+                  className="glass-card p-6 block hover:scale-[1.03] transition-all duration-300 group h-full"
+                >
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <tool.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-white font-bold text-lg mb-2">{tool.title}</h3>
+                  <p className="text-text-secondary text-sm leading-relaxed">{tool.desc}</p>
+                  <div className="mt-4 flex items-center gap-1 text-primary text-sm font-medium group-hover:gap-2 transition-all">
+                    جرّب الآن
+                    <ArrowLeft className="w-4 h-4" />
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -79,7 +158,13 @@ export default function HomePage() {
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
+            <motion.div
+              className="lg:col-span-2"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
               <h2 className="text-2xl font-bold text-white mb-6">أسعار العملات الرقمية الحية</h2>
               <div className="glass-card overflow-hidden">
                 <div className="overflow-x-auto">
@@ -123,9 +208,20 @@ export default function HomePage() {
                     </tbody>
                   </table>
                 </div>
+                <div className="p-4 border-t border-white/10 text-center">
+                  <Link to="/converter" className="text-primary text-sm font-medium hover:text-primary-dark transition-colors inline-flex items-center gap-1">
+                    حوّل العملات بأسعار حية
+                    <ArrowLeft className="w-4 h-4" />
+                  </Link>
+                </div>
               </div>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
               <h2 className="text-2xl font-bold text-white mb-6">مزاج السوق</h2>
               <FearGreedGauge />
               <div className="glass-card p-4 mt-4">
@@ -134,7 +230,7 @@ export default function HomePage() {
                   مؤشر الخوف والطمع يقيس مشاعر السوق. الخوف الشديد قد يعني فرصة شراء، والطمع الشديد قد يعني وقت الحذر.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -149,10 +245,27 @@ export default function HomePage() {
               <ArrowLeft className="w-4 h-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            variants={staggerContainer}
+          >
             {topExchanges.map((exchange, index) => (
-              <ExchangeCard key={exchange.id} exchange={exchange} rank={index + 1} />
+              <motion.div key={exchange.id} variants={fadeInUp} custom={index}>
+                <ExchangeCard exchange={exchange} rank={index + 1} />
+              </motion.div>
             ))}
+          </motion.div>
+          <div className="text-center mt-8">
+            <Link
+              to="/compare/side-by-side"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-all text-sm"
+            >
+              <Columns3 className="w-4 h-4 text-primary" />
+              قارن المنصات جنب لجنب
+            </Link>
           </div>
         </div>
       </section>
@@ -160,7 +273,13 @@ export default function HomePage() {
       {/* AI Recommender CTA */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="glass-card p-8 md:p-12 text-center relative overflow-hidden">
+          <motion.div
+            className="glass-card p-8 md:p-12 text-center relative overflow-hidden"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10" />
             <div className="relative">
               <Brain className="w-16 h-16 text-primary mx-auto mb-6 animate-float" />
@@ -180,7 +299,7 @@ export default function HomePage() {
                 <ArrowLeft className="w-5 h-5" />
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>

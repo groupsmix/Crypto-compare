@@ -24,6 +24,8 @@ export default function Footer() {
               <Link to="/compare" className="block text-text-secondary hover:text-primary transition-colors text-sm">قارن المنصات</Link>
               <Link to="/recommender" className="block text-text-secondary hover:text-primary transition-colors text-sm">المستشار الذكي</Link>
               <Link to="/calculator" className="block text-text-secondary hover:text-primary transition-colors text-sm">حاسبة الرسوم</Link>
+              <Link to="/converter" className="block text-text-secondary hover:text-primary transition-colors text-sm">محول العملات</Link>
+              <Link to="/compare/side-by-side" className="block text-text-secondary hover:text-primary transition-colors text-sm">مقارنة جنب لجنب</Link>
               <Link to="/articles" className="block text-text-secondary hover:text-primary transition-colors text-sm">المقالات التعليمية</Link>
             </div>
           </div>

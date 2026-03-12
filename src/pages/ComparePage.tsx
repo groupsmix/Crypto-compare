@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Search, SlidersHorizontal, Columns3 } from 'lucide-react';
 import ExchangeCard from '@/components/ExchangeCard';
 import { exchanges } from '@/data/exchanges';
 
@@ -30,6 +31,16 @@ export default function ComparePage() {
           <p className="text-text-secondary text-lg max-w-2xl mx-auto">
             قارن بين أفضل 6 منصات تداول عملات رقمية من حيث الرسوم والأمان والميزات
           </p>
+        </div>
+
+        <div className="flex justify-center mb-8">
+          <Link
+            to="/compare/side-by-side"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-bold hover:opacity-90 transition-all"
+          >
+            <Columns3 className="w-5 h-5" />
+            مقارنة جنب لجنب
+          </Link>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
