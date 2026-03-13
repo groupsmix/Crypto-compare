@@ -1,139 +1,227 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, SlidersHorizontal, Columns3 } from 'lucide-react';
-import ExchangeCard from '@/components/ExchangeCard';
-import SEO from '@/components/SEO';
-import { exchanges } from '@/data/exchanges';
-
-type SortKey = 'rating' | 'coins' | 'security' | 'ease';
+import { Check, X, ExternalLink } from 'lucide-react';
+import SEOHead from '../components/seo/SEOHead';
+import { exchanges } from '../data/exchanges';
+import { trackAffiliateClick } from '../hooks/useAffiliateTracker';
+import { Exchange } from '../types';
 
 export default function ComparePage() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState<SortKey>('rating');
+  const [selected, setSelected] = useState<string[]>(['binance', 'bybit', 'okx']);
 
-  const filteredExchanges = exchanges
-    .filter((e) =>
-      e.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      e.nameAr.includes(searchTerm)
-    )
-    .sort((a, b) => {
-      if (sortBy === 'rating') return b.rating - a.rating;
-      if (sortBy === 'coins') return b.coins - a.coins;
-      if (sortBy === 'security') return b.security - a.security;
-      if (sortBy === 'ease') return b.ease - a.ease;
-      return 0;
-    });
+  const toggleExchange = (id: string) => {
+    if (selected.includes(id)) {
+      if (selected.length > 2) setSelected(selected.filter((s) => s !== id));
+    } else {
+      if (selected.length < 4) setSelected([...selected, id]);
+    }
+  };
+
+  const selectedExchanges = selected
+    .map((id) => exchanges.find((e) => e.id === id))
+    .filter(Boolean) as Exchange[];
+
+  const BoolCell = ({ value }: { value: boolean }) => (
+    value ? <Check className="w-4 h-4 text-green-500 mx-auto" /> : <X className="w-4 h-4 text-red-400 mx-auto" />
+  );
+
+  const ScoreCell = ({ value, best }: { value: number; best: number }) => (
+    <span className={`font-semibold ${value === best ? 'text-green-500' : ''}`}>{value}</span>
+  );
+
+  const getBest = (key: keyof Exchange) => {
+    return Math.max(...selectedExchanges.map((e) => Number(e[key])));
+  };
+
+  const getLowest = (key: 'makerFee' | 'takerFee') => {
+    return Math.min(...selectedExchanges.map((e) => e[key]));
+  };
 
   return (
-    <div className="min-h-screen py-24 px-4">
-      <SEO
-        title="قارن منصات تداول العملات الرقمية - مقارنة شاملة"
-        description="قارن بين أفضل 6 منصات تداول عملات رقمية من حيث الرسوم والأمان والميزات. Binance, Bybit, OKX, KuCoin, Bitget, MEXC."
-        path="/compare"
+    <>
+      <SEOHead
+        seo={{
+          title: 'Compare Crypto Exchanges Side by Side — CryptoRank 2026',
+          description: 'Compare cryptocurrency exchanges side by side. See fees, features, security scores, and more to find the best platform for you.',
+          keywords: ['compare crypto exchanges', 'exchange comparison', 'crypto fees comparison', 'binance vs bybit', 'best exchange comparison'],
+        }}
       />
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">قارن منصات التداول</h1>
-          <p className="text-text-secondary text-lg max-w-2xl mx-auto">
-            قارن بين أفضل 6 منصات تداول عملات رقمية من حيث الرسوم والأمان والميزات
-          </p>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2">Compare Exchanges</h1>
+          <p className="text-gray-600 dark:text-gray-400">Select 2-4 exchanges to compare side by side.</p>
         </div>
 
-        <div className="flex justify-center mb-8">
-          <Link
-            to="/compare/side-by-side"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-bold hover:opacity-90 transition-all"
-          >
-            <Columns3 className="w-5 h-5" />
-            مقارنة جنب لجنب
-          </Link>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-4 mb-8">
-          <div className="flex-1 relative">
-            <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-secondary" />
-            <input
-              type="text"
-              placeholder="ابحث عن منصة..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pr-12 pl-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-text-secondary focus:outline-none focus:border-primary/50 transition-colors"
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <SlidersHorizontal className="w-5 h-5 text-text-secondary" />
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortKey)}
-              className="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-primary/50 transition-colors appearance-none cursor-pointer"
+        {/* Exchange Selector */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {exchanges.map((exchange) => (
+            <button
+              key={exchange.id}
+              onClick={() => toggleExchange(exchange.id)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border transition-all ${
+                selected.includes(exchange.id)
+                  ? 'bg-orange-50 dark:bg-orange-950/50 border-orange-300 dark:border-orange-700 text-orange-600 dark:text-orange-400'
+                  : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+              }`}
             >
-              <option value="rating">ترتيب حسب التقييم</option>
-              <option value="coins">ترتيب حسب عدد العملات</option>
-              <option value="security">ترتيب حسب الأمان</option>
-              <option value="ease">ترتيب حسب سهولة الاستخدام</option>
-            </select>
-          </div>
+              <div className="w-6 h-6 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-xs font-bold text-orange-500">
+                {exchange.name.charAt(0)}
+              </div>
+              {exchange.name}
+            </button>
+          ))}
         </div>
 
         {/* Comparison Table */}
-        <div className="glass-card overflow-hidden mb-12">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-white/10 bg-white/5">
-                  <th className="text-right p-4 text-text-secondary text-sm font-medium">المنصة</th>
-                  <th className="text-right p-4 text-text-secondary text-sm font-medium">التقييم</th>
-                  <th className="text-right p-4 text-text-secondary text-sm font-medium">رسوم فورية</th>
-                  <th className="text-right p-4 text-text-secondary text-sm font-medium">رسوم عقود</th>
-                  <th className="text-right p-4 text-text-secondary text-sm font-medium">العملات</th>
-                  <th className="text-right p-4 text-text-secondary text-sm font-medium">الرافعة</th>
-                  <th className="text-right p-4 text-text-secondary text-sm font-medium">الأمان</th>
-                  <th className="text-right p-4 text-text-secondary text-sm font-medium hidden lg:table-cell">المستخدمون</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredExchanges.map((exchange) => (
-                  <tr key={exchange.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="p-4">
-                      <div className="flex items-center gap-3">
-                        <img src={exchange.logo} alt={exchange.name} className="w-8 h-8 rounded-lg bg-white/10 p-0.5" onError={(e) => { (e.target as HTMLImageElement).src = `https://placehold.co/32x32/1a1a2e/f7931a?text=${exchange.name[0]}`; }} />
-                        <div>
-                          <div className="text-white font-medium text-sm">{exchange.nameAr}</div>
-                          <div className="text-text-secondary text-xs">{exchange.name}</div>
-                        </div>
+        <div className="overflow-x-auto rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-gray-50 dark:bg-gray-800/50">
+                <th className="text-left px-4 py-4 font-semibold w-48 border-b border-gray-200 dark:border-gray-700">Feature</th>
+                {selectedExchanges.map((e) => (
+                  <th key={e.id} className="text-center px-4 py-4 border-b border-gray-200 dark:border-gray-700 min-w-36">
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-lg font-bold text-orange-500">
+                        {e.name.charAt(0)}
                       </div>
-                    </td>
-                    <td className="p-4">
-                      <span className="text-primary font-bold">{exchange.rating}</span>
-                    </td>
-                    <td className="p-4 text-white text-sm">{exchange.spotFee}</td>
-                    <td className="p-4 text-white text-sm">{exchange.futuresFee}</td>
-                    <td className="p-4 text-white text-sm">{exchange.coins}+</td>
-                    <td className="p-4 text-white text-sm">{exchange.leverage}</td>
-                    <td className="p-4">
-                      <div className="flex items-center gap-2">
-                        <div className="w-16 bg-white/10 rounded-full h-2">
-                          <div className="bg-success rounded-full h-2" style={{ width: `${exchange.security}%` }} />
-                        </div>
-                        <span className="text-success text-xs">{exchange.security}%</span>
-                      </div>
-                    </td>
-                    <td className="p-4 text-text-secondary text-sm hidden lg:table-cell">{exchange.users}</td>
-                  </tr>
+                      <span className="font-bold">{e.name}</span>
+                    </div>
+                  </th>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-gray-100 dark:border-gray-800">
+                <td className="px-4 py-3 font-medium text-gray-500">Overall Score</td>
+                {selectedExchanges.map((e) => (
+                  <td key={e.id} className="text-center px-4 py-3">
+                    <span className={`text-lg font-bold ${e.overallScore === getBest('overallScore') ? 'text-green-500' : ''}`}>
+                      {e.overallScore}/100
+                    </span>
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/20">
+                <td className="px-4 py-3 font-medium text-gray-500">Rating</td>
+                {selectedExchanges.map((e) => (
+                  <td key={e.id} className="text-center px-4 py-3">
+                    <ScoreCell value={e.rating} best={getBest('rating')} />
+                    <span className="text-gray-400">/5</span>
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-gray-100 dark:border-gray-800">
+                <td className="px-4 py-3 font-medium text-gray-500">Maker Fee</td>
+                {selectedExchanges.map((e) => (
+                  <td key={e.id} className="text-center px-4 py-3">
+                    <span className={`font-semibold ${e.makerFee === getLowest('makerFee') ? 'text-green-500' : ''}`}>
+                      {e.makerFee}%
+                    </span>
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/20">
+                <td className="px-4 py-3 font-medium text-gray-500">Taker Fee</td>
+                {selectedExchanges.map((e) => (
+                  <td key={e.id} className="text-center px-4 py-3">
+                    <span className={`font-semibold ${e.takerFee === getLowest('takerFee') ? 'text-green-500' : ''}`}>
+                      {e.takerFee}%
+                    </span>
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-gray-100 dark:border-gray-800">
+                <td className="px-4 py-3 font-medium text-gray-500">Cryptocurrencies</td>
+                {selectedExchanges.map((e) => (
+                  <td key={e.id} className="text-center px-4 py-3">
+                    <ScoreCell value={e.supportedCryptos} best={getBest('supportedCryptos')} />
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/20">
+                <td className="px-4 py-3 font-medium text-gray-500">Trading Pairs</td>
+                {selectedExchanges.map((e) => (
+                  <td key={e.id} className="text-center px-4 py-3">
+                    <ScoreCell value={e.tradingPairs} best={getBest('tradingPairs')} />
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-gray-100 dark:border-gray-800">
+                <td className="px-4 py-3 font-medium text-gray-500">Users</td>
+                {selectedExchanges.map((e) => (
+                  <td key={e.id} className="text-center px-4 py-3 font-semibold">{e.users}</td>
+                ))}
+              </tr>
+              <tr className="border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/20">
+                <td className="px-4 py-3 font-medium text-gray-500">Daily Volume</td>
+                {selectedExchanges.map((e) => (
+                  <td key={e.id} className="text-center px-4 py-3 font-semibold">{e.dailyVolume}</td>
+                ))}
+              </tr>
+              <tr className="border-b border-gray-100 dark:border-gray-800">
+                <td className="px-4 py-3 font-medium text-gray-500">Founded</td>
+                {selectedExchanges.map((e) => (
+                  <td key={e.id} className="text-center px-4 py-3 font-semibold">{e.founded}</td>
+                ))}
+              </tr>
 
-        {/* Exchange Cards */}
-        <h2 className="text-2xl font-bold text-white mb-6">تفاصيل المنصات</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredExchanges.map((exchange, index) => (
-            <ExchangeCard key={exchange.id} exchange={exchange} rank={index + 1} />
-          ))}
+              {/* Scores */}
+              <tr className="border-b border-gray-200 dark:border-gray-700">
+                <td className="px-4 py-3 font-bold text-orange-500" colSpan={selectedExchanges.length + 1}>Scores</td>
+              </tr>
+              {(['feesScore', 'securityScore', 'easeOfUseScore', 'featuresScore', 'supportScore'] as (keyof Exchange)[]).map((key) => {
+                const labels: Record<string, string> = { feesScore: 'Fees Score', securityScore: 'Security Score', easeOfUseScore: 'Ease of Use', featuresScore: 'Features Score', supportScore: 'Support Score' };
+                return (
+                  <tr key={key} className="border-b border-gray-100 dark:border-gray-800">
+                    <td className="px-4 py-3 font-medium text-gray-500">{labels[key]}</td>
+                    {selectedExchanges.map((e) => (
+                      <td key={e.id} className="text-center px-4 py-3">
+                        <ScoreCell value={Number(e[key])} best={getBest(key)} />
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+
+              {/* Features */}
+              <tr className="border-b border-gray-200 dark:border-gray-700">
+                <td className="px-4 py-3 font-bold text-orange-500" colSpan={selectedExchanges.length + 1}>Features</td>
+              </tr>
+              {(['futures', 'marginTrading', 'staking', 'nft', 'mobileApp'] as (keyof Exchange)[]).map((key) => {
+                const labels: Record<string, string> = { futures: 'Futures', marginTrading: 'Margin Trading', staking: 'Staking', nft: 'NFT Marketplace', mobileApp: 'Mobile App' };
+                return (
+                  <tr key={key} className="border-b border-gray-100 dark:border-gray-800">
+                    <td className="px-4 py-3 font-medium text-gray-500">{labels[key]}</td>
+                    {selectedExchanges.map((e) => (
+                      <td key={e.id} className="text-center px-4 py-3">
+                        <BoolCell value={Boolean(e[key])} />
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+
+              {/* Visit Buttons */}
+              <tr>
+                <td className="px-4 py-4"></td>
+                {selectedExchanges.map((e) => (
+                  <td key={e.id} className="text-center px-4 py-4">
+                    <a
+                      href={e.affiliateUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => trackAffiliateClick(e.id, 'compare_table')}
+                      className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
+                    >
+                      Visit <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-    </div>
+    </>
   );
 }
