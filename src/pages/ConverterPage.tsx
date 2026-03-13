@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDownUp, RefreshCw, TrendingUp, TrendingDown } from 'lucide-react';
+import SEO from '@/components/SEO';
 import { useCryptoPrices } from '@/hooks/useCryptoPrices';
 
 const fiatCurrencies = [
@@ -65,6 +66,11 @@ export default function ConverterPage() {
 
   return (
     <div className="min-h-screen py-24 px-4">
+      <SEO
+        title="محول العملات الرقمية - أسعار لحظية"
+        description="حوّل بين العملات الرقمية والعملات المحلية بأسعار لحظية. بيتكوين، إيثريوم، وأكثر مقابل الدولار، الريال، والدرهم."
+        path="/converter"
+      />
       <div className="max-w-3xl mx-auto">
         <motion.div
           className="text-center mb-12"

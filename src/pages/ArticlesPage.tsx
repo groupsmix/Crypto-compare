@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Clock, ArrowLeft, BookOpen } from 'lucide-react';
+import SEO from '@/components/SEO';
 import { articles } from '@/data/articles';
 
 const categoryColors: Record<string, string> = {
@@ -13,6 +14,11 @@ const categoryColors: Record<string, string> = {
 export default function ArticlesPage() {
   return (
     <div className="min-h-screen py-24 px-4">
+      <SEO
+        title="المقالات التعليمية - تعلم تداول العملات الرقمية"
+        description="مقالات تعليمية شاملة عن العملات الرقمية: كيف تشتري بيتكوين، أمان العملات الرقمية، استراتيجيات التداول، DeFi، والستيكنج."
+        path="/articles"
+      />
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-accent mb-6">

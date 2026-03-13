@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Home, ArrowLeft, Search } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 export default function NotFoundPage() {
   return (
     <div className="min-h-screen py-24 px-4 flex items-center justify-center">
+      <SEO
+        title="404 - الصفحة غير موجودة"
+        description="عذراً، الصفحة التي تبحث عنها غير موجودة. يمكنك العودة للصفحة الرئيسية أو تصفح منصات التداول."
+      />
       <motion.div
         className="max-w-lg mx-auto text-center"
         initial={{ opacity: 0, y: 40 }}

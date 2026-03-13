@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { TrendingUp, Shield, Zap, Brain, ArrowLeft, Star, ArrowDownUp, Calculator, Columns3 } from 'lucide-react';
 import ExchangeCard from '@/components/ExchangeCard';
 import FearGreedGauge from '@/components/FearGreedGauge';
+import SEO from '@/components/SEO';
 import { exchanges } from '@/data/exchanges';
 import { useCryptoPrices } from '@/hooks/useCryptoPrices';
 
@@ -26,6 +27,11 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="كريبتو قارن - قارن أفضل منصات تداول العملات الرقمية 2025"
+        description="قارن بين أفضل منصات تداول العملات الرقمية مثل Binance وBybit وOKX. مراجعات شاملة، أسعار حية، حاسبة رسوم، ومستشار ذكي بالذكاء الاصطناعي."
+        path="/"
+      />
       {/* Hero Section */}
       <section className="relative py-20 md:py-28 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />

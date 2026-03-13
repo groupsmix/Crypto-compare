@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, SlidersHorizontal, Columns3 } from 'lucide-react';
 import ExchangeCard from '@/components/ExchangeCard';
+import SEO from '@/components/SEO';
 import { exchanges } from '@/data/exchanges';
 
 type SortKey = 'rating' | 'coins' | 'security' | 'ease';
@@ -25,6 +26,11 @@ export default function ComparePage() {
 
   return (
     <div className="min-h-screen py-24 px-4">
+      <SEO
+        title="قارن منصات تداول العملات الرقمية - مقارنة شاملة"
+        description="قارن بين أفضل 6 منصات تداول عملات رقمية من حيث الرسوم والأمان والميزات. Binance, Bybit, OKX, KuCoin, Bitget, MEXC."
+        path="/compare"
+      />
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">قارن منصات التداول</h1>

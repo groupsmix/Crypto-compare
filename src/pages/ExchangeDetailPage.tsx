@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { Star, Shield, Users, ExternalLink, Check, X, ArrowRight, Zap } from 'lucide-react';
+import SEO from '@/components/SEO';
 import { exchanges } from '@/data/exchanges';
 
 export default function ExchangeDetailPage() {
@@ -41,9 +42,11 @@ export default function ExchangeDetailPage() {
 
   return (
     <div className="min-h-screen py-24 px-4">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
+      <SEO
+        title={`مراجعة ${exchange.nameAr} (${exchange.name}) - تقييم شامل ${new Date().getFullYear()}`}
+        description={`مراجعة شاملة لمنصة ${exchange.nameAr}. التقييم: ${exchange.rating}/5. الرسوم: ${exchange.spotFee}. ${exchange.users} مستخدم. ${exchange.description.slice(0, 120)}`}
+        path={`/exchange/${exchange.id}`}
+        structuredData={reviewSchema}
       />
       <div className="max-w-5xl mx-auto">
         {/* Breadcrumb */}

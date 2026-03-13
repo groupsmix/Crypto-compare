@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { ArrowRight, Clock, BookOpen } from 'lucide-react';
+import SEO from '@/components/SEO';
 import { articles } from '@/data/articles';
 
 export default function ArticleDetailPage() {
@@ -15,8 +16,28 @@ export default function ArticleDetailPage() {
     );
   }
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.excerpt,
+    author: { '@type': 'Organization', name: 'كريبتو قارن' },
+    publisher: { '@type': 'Organization', name: 'كريبتو قارن' },
+    mainEntityOfPage: `https://crypto-compare.com/article/${article.id}`,
+    inLanguage: 'ar',
+    articleSection: article.category,
+  };
+
   return (
     <div className="min-h-screen py-24 px-4">
+      <SEO
+        title={article.title}
+        description={article.excerpt}
+        path={`/article/${article.id}`}
+        type="article"
+        article={{ section: article.category, tags: [article.category, 'عملات رقمية', 'تداول'] }}
+        structuredData={articleSchema}
+      />
       <div className="max-w-3xl mx-auto">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-text-secondary mb-8">

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Calculator, TrendingUp } from 'lucide-react';
+import SEO from '@/components/SEO';
 import { exchanges } from '@/data/exchanges';
 
 export default function CalculatorPage() {
@@ -34,6 +35,11 @@ export default function CalculatorPage() {
 
   return (
     <div className="min-h-screen py-24 px-4">
+      <SEO
+        title="حاسبة رسوم التداول - احسب رسومك على كل منصة"
+        description="احسب رسوم التداول الشهرية والسنوية على كل منصة تداول. قارن الرسوم واعرف كم يمكنك توفيره باختيار المنصة الأرخص."
+        path="/calculator"
+      />
       <div className="max-w-5xl mx-auto">
         <motion.div
           className="text-center mb-12"

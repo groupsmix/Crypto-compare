@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Brain, ArrowLeft, ArrowRight, Star, ExternalLink, RotateCcw } from 'lucide-react';
+import SEO from '@/components/SEO';
 import { recommenderQuestions, getRecommendation } from '@/data/recommender';
 import { exchanges } from '@/data/exchanges';
 
@@ -32,6 +33,11 @@ export default function RecommenderPage() {
 
   return (
     <div className="min-h-screen py-24 px-4">
+      <SEO
+        title="المستشار الذكي - اختر أفضل منصة تداول بالذكاء الاصطناعي"
+        description="أجب على 4 أسئلة بسيطة واحصل على توصية مخصصة لأفضل منصة تداول عملات رقمية تناسب احتياجاتك ومستوى خبرتك."
+        path="/recommender"
+      />
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent mb-6">

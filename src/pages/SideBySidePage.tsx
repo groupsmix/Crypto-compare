@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Check, X, Shield, Star, ExternalLink, Columns3 } from 'lucide-react';
+import SEO from '@/components/SEO';
 import { exchanges } from '@/data/exchanges';
 import type { Exchange } from '@/types';
 
@@ -70,6 +71,11 @@ export default function SideBySidePage() {
 
   return (
     <div className="min-h-screen py-24 px-4">
+      <SEO
+        title="مقارنة جنب لجنب - قارن المنصات بالتفصيل"
+        description="قارن حتى 3 منصات تداول عملات رقمية جنباً لجنب في جدول تفصيلي واحد. الرسوم، الأمان، الميزات، وأكثر."
+        path="/compare/side-by-side"
+      />
       <div className="max-w-7xl mx-auto">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-text-secondary mb-8">

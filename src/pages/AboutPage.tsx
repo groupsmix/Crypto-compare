@@ -1,8 +1,14 @@
 import { Shield, Target, Users, Brain, TrendingUp, Zap } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen py-24 px-4">
+      <SEO
+        title="عن كريبتو قارن - مهمتنا ورؤيتنا"
+        description="كريبتو قارن هو الدليل العربي الأول لمقارنة منصات تداول العملات الرقمية بمساعدة الذكاء الاصطناعي. مراجعات مستقلة وموضوعية."
+        path="/about"
+      />
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">عن كريبتو قارن</h1>
