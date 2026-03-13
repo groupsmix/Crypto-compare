@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /seo-tools
 
-Sitemap: https://crypto-compare.com/sitemap.xml
+Sitemap: https://cryptoranked.xyz/sitemap.xml

@@ -1,107 +1,281 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main Pages -->
   <url>
-    <loc>https://crypto-compare.com/</loc>
+    <loc>https://cryptoranked.xyz/</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/compare</loc>
+    <loc>https://cryptoranked.xyz/exchanges</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/compare/side-by-side</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://crypto-compare.com/recommender</loc>
+    <loc>https://cryptoranked.xyz/compare</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/calculator</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://cryptoranked.xyz/calculator</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/converter</loc>
+    <loc>https://cryptoranked.xyz/dca-calculator</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/recommender</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/blog</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/articles</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://crypto-compare.com/about</loc>
+    <loc>https://cryptoranked.xyz/about</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+
+  <!-- Exchange Review Pages -->
   <url>
-    <loc>https://crypto-compare.com/exchange/binance</loc>
+    <loc>https://cryptoranked.xyz/exchange/binance</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/exchange/bybit</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/exchange/okx</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/exchange/bybit</loc>
+    <loc>https://cryptoranked.xyz/exchange/bitget</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/exchange/okx</loc>
+    <loc>https://cryptoranked.xyz/exchange/coinbase</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/exchange/bitget</loc>
+    <loc>https://cryptoranked.xyz/exchange/kraken</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/exchange/kucoin</loc>
+    <loc>https://cryptoranked.xyz/exchange/kucoin</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Head-to-Head Comparison Pages -->
+  <url>
+    <loc>https://cryptoranked.xyz/compare/binance-vs-coinbase</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/compare/binance-vs-bybit</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/compare/binance-vs-okx</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/exchange/mexc</loc>
+    <loc>https://cryptoranked.xyz/compare/bybit-vs-bitget</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/article/how-to-buy-bitcoin</loc>
+    <loc>https://cryptoranked.xyz/compare/coinbase-vs-kraken</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/compare/kucoin-vs-okx</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Country Guide Pages -->
+  <url>
+    <loc>https://cryptoranked.xyz/best-exchange/usa</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/best-exchange/uae</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/best-exchange/uk</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/best-exchange/saudi-arabia</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/best-exchange/egypt</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/best-exchange/germany</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/best-exchange/india</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/best-exchange/canada</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog Posts -->
+  <url>
+    <loc>https://cryptoranked.xyz/blog/how-to-choose-crypto-exchange-2026</loc>
+    <lastmod>2026-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/article/crypto-security</loc>
+    <loc>https://cryptoranked.xyz/blog/crypto-trading-fees-explained</loc>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/article/trading-fees-explained</loc>
+    <loc>https://cryptoranked.xyz/blog/crypto-security-best-practices-2026</loc>
+    <lastmod>2026-03-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/article/copy-trading-guide</loc>
+    <loc>https://cryptoranked.xyz/blog/what-is-copy-trading-crypto</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/article/what-is-defi</loc>
+    <loc>https://cryptoranked.xyz/blog/defi-vs-centralized-exchanges</loc>
+    <lastmod>2026-02-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/article/best-crypto-wallets</loc>
+    <loc>https://cryptoranked.xyz/blog/crypto-staking-passive-income-guide</loc>
+    <lastmod>2026-02-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crypto-compare.com/article/staking-passive-income</loc>
+    <loc>https://cryptoranked.xyz/blog/bitcoin-halving-2028-what-to-expect</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/blog/best-crypto-trading-bots-2026</loc>
+    <lastmod>2026-03-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/blog/crypto-tax-guide-2026</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/blog/top-altcoins-to-watch-2026</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/blog/crypto-exchange-for-beginners-2026</loc>
+    <lastmod>2026-02-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/blog/leveraged-trading-crypto-risks-rewards</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/blog/nft-marketplace-comparison-2026</loc>
+    <lastmod>2026-02-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/blog/dollar-cost-averaging-crypto-strategy</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/blog/crypto-portfolio-management-guide</loc>
+    <lastmod>2026-02-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cryptoranked.xyz/blog/web3-wallets-explained-2026</loc>
+    <lastmod>2026-02-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
