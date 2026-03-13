@@ -24,7 +24,7 @@ export default function ConverterPage() {
   const [selectedFiat, setSelectedFiat] = useState('USD');
   const [direction, setDirection] = useState<'crypto-to-fiat' | 'fiat-to-crypto'>('crypto-to-fiat');
 
-  const selectedCoin = prices.find((p) => p.id === selectedCrypto);
+  const selectedCoin = prices.find((p: { id: string }) => p.id === selectedCrypto);
   const selectedFiatCurrency = fiatCurrencies.find((f) => f.code === selectedFiat);
 
   const result = useMemo(() => {

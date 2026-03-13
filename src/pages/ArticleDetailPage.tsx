@@ -64,7 +64,7 @@ export default function ArticleDetailPage() {
           </h1>
 
           <div className="space-y-6">
-            {article.content.map((paragraph, index) => (
+            {article.content.map((paragraph: string, index: number) => (
               <p key={index} className="text-text-secondary leading-relaxed text-lg">
                 {paragraph}
               </p>
