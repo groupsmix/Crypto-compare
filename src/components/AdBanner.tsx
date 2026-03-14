@@ -15,7 +15,8 @@ export default function AdBanner({ slot, format = 'auto', className = '' }: AdBa
     if (!isAdSenseConfigured || !adRef.current) return;
 
     try {
-      const adsbygoogle = (window as Record<string, unknown>)['adsbygoogle'] as unknown[];
+      const win = window as unknown as Record<string, unknown>;
+      const adsbygoogle = win['adsbygoogle'] as unknown[];
       if (adsbygoogle) {
         adsbygoogle.push({});
       }

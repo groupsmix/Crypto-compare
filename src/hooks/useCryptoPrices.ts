@@ -4,28 +4,43 @@ import type { CryptoPrice } from '@/types';
 const COINGECKO_API = 'https://api.coingecko.com/api/v3';
 
 async function fetchCryptoPrices(): Promise<CryptoPrice[]> {
-  const response = await fetch(
-    `${COINGECKO_API}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h`
-  );
-  if (!response.ok) throw new Error('Failed to fetch prices');
-  return response.json();
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+  try {
+    const response = await fetch(
+      `${COINGECKO_API}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h`,
+      { signal: controller.signal }
+    );
+    if (!response.ok) throw new Error('Failed to fetch prices');
+    return response.json();
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 async function fetchFearGreedData(): Promise<{ value: number; classification: string }> {
-  const response = await fetch('https://api.alternative.me/fng/?limit=1');
-  if (!response.ok) throw new Error('Failed to fetch');
-  const result = await response.json();
-  if (result.data?.[0]) {
-    const val = parseInt(result.data[0].value);
-    let classification = 'محايد';
-    if (val <= 25) classification = 'خوف شديد';
-    else if (val <= 40) classification = 'خوف';
-    else if (val <= 60) classification = 'محايد';
-    else if (val <= 75) classification = 'طمع';
-    else classification = 'طمع شديد';
-    return { value: val, classification };
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+  try {
+    const response = await fetch('https://api.alternative.me/fng/?limit=1', {
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new Error('Failed to fetch');
+    const result = await response.json();
+    if (result.data?.[0]) {
+      const val = parseInt(result.data[0].value);
+      let classification = 'محايد';
+      if (val <= 25) classification = 'خوف شديد';
+      else if (val <= 40) classification = 'خوف';
+      else if (val <= 60) classification = 'محايد';
+      else if (val <= 75) classification = 'طمع';
+      else classification = 'طمع شديد';
+      return { value: val, classification };
+    }
+    return { value: 50, classification: 'محايد' };
+  } finally {
+    clearTimeout(timeoutId);
   }
-  return { value: 50, classification: 'محايد' };
 }
 
 export function useCryptoPrices() {

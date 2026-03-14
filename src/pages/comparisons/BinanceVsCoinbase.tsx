@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ExternalLink, Star, Shield, DollarSign, Users, Zap, ArrowLeft } from 'lucide-react';
+import { ExternalLink, Shield, DollarSign, Users, Zap, ArrowLeft } from 'lucide-react';
 import SEOHead from '../../components/seo/SEOHead';
 import { getExchangeById } from '../../data/exchanges';
 import { trackAffiliateClick } from '../../hooks/useAffiliateTracker';

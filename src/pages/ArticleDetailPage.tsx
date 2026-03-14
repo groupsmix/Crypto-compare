@@ -23,7 +23,7 @@ export default function ArticleDetailPage() {
     description: article.excerpt,
     author: { '@type': 'Organization', name: 'كريبتو قارن' },
     publisher: { '@type': 'Organization', name: 'كريبتو قارن' },
-    mainEntityOfPage: `https://crypto-compare.com/article/${article.id}`,
+    mainEntityOfPage: `${window.location.origin}/article/${article.id}`,
     inLanguage: 'ar',
     articleSection: article.category,
   };

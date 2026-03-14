@@ -15,7 +15,7 @@ interface SEOProps {
   structuredData?: Record<string, unknown>;
 }
 
-const SITE_URL = 'https://crypto-compare.com';
+const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://cryptoranked.xyz';
 const SITE_NAME = 'كريبتو قارن';
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`;
 

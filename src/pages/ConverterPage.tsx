@@ -34,7 +34,9 @@ export default function ConverterPage() {
     if (direction === 'crypto-to-fiat') {
       return numAmount * selectedCoin.current_price * selectedFiatCurrency.rate;
     } else {
-      return numAmount / (selectedCoin.current_price * selectedFiatCurrency.rate);
+      const divisor = selectedCoin.current_price * selectedFiatCurrency.rate;
+      if (divisor === 0) return 0;
+      return numAmount / divisor;
     }
   }, [amount, selectedCoin, selectedFiatCurrency, direction]);
 

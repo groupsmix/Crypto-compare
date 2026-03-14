@@ -1,3 +1,14 @@
+const MAX_STORED_CLICKS = 1000;
+
+function safeParseJSON<T>(value: string | null, fallback: T): T {
+  if (!value) return fallback;
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return fallback;
+  }
+}
+
 export function trackAffiliateClick(exchangeId: string, source: string) {
   const clickData = {
     exchangeId,
@@ -7,9 +18,15 @@ export function trackAffiliateClick(exchangeId: string, source: string) {
     page: window.location.pathname,
   };
 
-  const clicks = JSON.parse(localStorage.getItem('affiliate_clicks') || '[]');
+  const clicks = safeParseJSON<Record<string, unknown>[]>(
+    localStorage.getItem('affiliate_clicks'),
+    []
+  );
   clicks.push(clickData);
-  localStorage.setItem('affiliate_clicks', JSON.stringify(clicks));
+
+  // Cap stored clicks to prevent unbounded localStorage growth
+  const trimmedClicks = clicks.slice(-MAX_STORED_CLICKS);
+  localStorage.setItem('affiliate_clicks', JSON.stringify(trimmedClicks));
 
   if (typeof window.gtag === 'function') {
     window.gtag('event', 'affiliate_click', {
@@ -21,9 +38,12 @@ export function trackAffiliateClick(exchangeId: string, source: string) {
 }
 
 export function getClickStats(): Record<string, number> {
-  const clicks = JSON.parse(localStorage.getItem('affiliate_clicks') || '[]');
+  const clicks = safeParseJSON<{ exchangeId: string }[]>(
+    localStorage.getItem('affiliate_clicks'),
+    []
+  );
   const stats: Record<string, number> = {};
-  clicks.forEach((click: { exchangeId: string }) => {
+  clicks.forEach((click) => {
     stats[click.exchangeId] = (stats[click.exchangeId] || 0) + 1;
   });
   return stats;

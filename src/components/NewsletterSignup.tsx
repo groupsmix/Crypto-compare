@@ -15,13 +15,20 @@ export default function NewsletterSignup({ variant = 'card', className = '' }: N
     e.preventDefault();
     setError('');
 
-    if (!email || !email.includes('@')) {
+    // Validate email with a proper regex pattern
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
       setError('Please enter a valid email address');
       return;
     }
 
     // Store subscriber locally (replace with real email service like Mailchimp/Brevo)
-    const subscribers = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
+    let subscribers: string[] = [];
+    try {
+      subscribers = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
+    } catch {
+      subscribers = [];
+    }
     if (subscribers.includes(email)) {
       setError('This email is already subscribed!');
       return;

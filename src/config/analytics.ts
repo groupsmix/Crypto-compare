@@ -55,7 +55,10 @@ export const initClarity = (): void => {
 // Track custom events in GA4
 export const trackEvent = (eventName: string, params?: Record<string, string | number>): void => {
   if (typeof window !== 'undefined' && 'gtag' in window) {
-    (window as Record<string, unknown>)['gtag']?.('event', eventName, params);
+    const gtag = (window as unknown as Record<string, unknown>)['gtag'];
+    if (typeof gtag === 'function') {
+      gtag('event', eventName, params);
+    }
   }
 };
 

@@ -12,6 +12,7 @@ import BlogPostPage from './pages/BlogPostPage';
 import AboutPage from './pages/AboutPage';
 import SEOToolsPage from './pages/SEOToolsPage';
 import ScrollToTop from './components/layout/ScrollToTop';
+import NotFoundPage from './pages/NotFoundPage';
 
 // New comparison pages
 import BinanceVsCoinbase from './pages/comparisons/BinanceVsCoinbase';
@@ -72,6 +73,7 @@ function App() {
             <Route path="best-exchange/germany" element={<BestExchangeGermany />} />
             <Route path="best-exchange/india" element={<BestExchangeIndia />} />
             <Route path="best-exchange/canada" element={<BestExchangeCanada />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
@@ -79,4 +81,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
