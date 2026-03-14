@@ -38,6 +38,24 @@ export const api = {
   // Admin
   dashboard: `${API_BASE_URL}/api/admin/dashboard`,
   settings: `${API_BASE_URL}/api/admin/settings`,
+
+  // Newsletter
+  newsletterSubscribe: `${API_BASE_URL}/api/newsletter/subscribe`,
+  newsletterUnsubscribe: `${API_BASE_URL}/api/newsletter/unsubscribe`,
+
+  // Contact
+  contactSubmit: `${API_BASE_URL}/api/contact/submit`,
+
+  // Calculator
+  calculateFees: `${API_BASE_URL}/api/calculator/fees`,
+  calculateDCA: `${API_BASE_URL}/api/calculator/dca`,
+
+  // Recommender
+  recommenderQuiz: `${API_BASE_URL}/api/recommender/quiz`,
+  recommenderResult: (id: number) => `${API_BASE_URL}/api/recommender/results/${id}`,
+
+  // Status
+  status: `${API_BASE_URL}/api/status`,
 };
 
 // Helper for authenticated requests

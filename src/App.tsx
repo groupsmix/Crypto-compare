@@ -1,46 +1,59 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import Layout from './components/layout/Layout';
-import HomePage from './pages/HomePage';
-import ExchangesPage from './pages/ExchangesPage';
-import ExchangeReviewPage from './pages/ExchangeReviewPage';
-import ComparePage from './pages/ComparePage';
-import CalculatorPage from './pages/CalculatorPage';
-import RecommenderPage from './pages/RecommenderPage';
-import BlogPage from './pages/BlogPage';
-import BlogPostPage from './pages/BlogPostPage';
-import AboutPage from './pages/AboutPage';
-import SEOToolsPage from './pages/SEOToolsPage';
 import ScrollToTop from './components/layout/ScrollToTop';
-import NotFoundPage from './pages/NotFoundPage';
 
-// New comparison pages
-import BinanceVsCoinbase from './pages/comparisons/BinanceVsCoinbase';
-import BinanceVsBybit from './pages/comparisons/BinanceVsBybit';
-import BinanceVsOKX from './pages/comparisons/BinanceVsOKX';
-import BybitVsBitget from './pages/comparisons/BybitVsBitget';
-import CoinbaseVsKraken from './pages/comparisons/CoinbaseVsKraken';
-import KuCoinVsOKX from './pages/comparisons/KuCoinVsOKX';
+// Eagerly loaded (homepage)
+import HomePage from './pages/HomePage';
 
-// New country guide pages
-import BestExchangeUSA from './pages/guides/BestExchangeUSA';
-import BestExchangeUAE from './pages/guides/BestExchangeUAE';
-import BestExchangeUK from './pages/guides/BestExchangeUK';
-import BestExchangeSaudiArabia from './pages/guides/BestExchangeSaudiArabia';
-import BestExchangeEgypt from './pages/guides/BestExchangeEgypt';
-import BestExchangeGermany from './pages/guides/BestExchangeGermany';
-import BestExchangeIndia from './pages/guides/BestExchangeIndia';
-import BestExchangeCanada from './pages/guides/BestExchangeCanada';
+// Lazy loaded pages for code splitting
+const ExchangesPage = lazy(() => import('./pages/ExchangesPage'));
+const ExchangeReviewPage = lazy(() => import('./pages/ExchangeReviewPage'));
+const ComparePage = lazy(() => import('./pages/ComparePage'));
+const CalculatorPage = lazy(() => import('./pages/CalculatorPage'));
+const RecommenderPage = lazy(() => import('./pages/RecommenderPage'));
+const BlogPage = lazy(() => import('./pages/BlogPage'));
+const BlogPostPage = lazy(() => import('./pages/BlogPostPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const SEOToolsPage = lazy(() => import('./pages/SEOToolsPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const StatusPage = lazy(() => import('./pages/StatusPage'));
+const DCACalculatorPage = lazy(() => import('./pages/DCACalculatorPage'));
 
-// DCA Calculator
-import DCACalculatorPage from './pages/DCACalculatorPage';
+// Comparison pages
+const BinanceVsCoinbase = lazy(() => import('./pages/comparisons/BinanceVsCoinbase'));
+const BinanceVsBybit = lazy(() => import('./pages/comparisons/BinanceVsBybit'));
+const BinanceVsOKX = lazy(() => import('./pages/comparisons/BinanceVsOKX'));
+const BybitVsBitget = lazy(() => import('./pages/comparisons/BybitVsBitget'));
+const CoinbaseVsKraken = lazy(() => import('./pages/comparisons/CoinbaseVsKraken'));
+const KuCoinVsOKX = lazy(() => import('./pages/comparisons/KuCoinVsOKX'));
+
+// Country guide pages
+const BestExchangeUSA = lazy(() => import('./pages/guides/BestExchangeUSA'));
+const BestExchangeUAE = lazy(() => import('./pages/guides/BestExchangeUAE'));
+const BestExchangeUK = lazy(() => import('./pages/guides/BestExchangeUK'));
+const BestExchangeSaudiArabia = lazy(() => import('./pages/guides/BestExchangeSaudiArabia'));
+const BestExchangeEgypt = lazy(() => import('./pages/guides/BestExchangeEgypt'));
+const BestExchangeGermany = lazy(() => import('./pages/guides/BestExchangeGermany'));
+const BestExchangeIndia = lazy(() => import('./pages/guides/BestExchangeIndia'));
+const BestExchangeCanada = lazy(() => import('./pages/guides/BestExchangeCanada'));
 
 // Admin pages
-import AdminLogin from './pages/admin/AdminLogin';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminBlog from './pages/admin/AdminBlog';
-import AdminExchanges from './pages/admin/AdminExchanges';
-import AdminAffiliates from './pages/admin/AdminAffiliates';
+const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'));
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const AdminBlog = lazy(() => import('./pages/admin/AdminBlog'));
+const AdminExchanges = lazy(() => import('./pages/admin/AdminExchanges'));
+const AdminAffiliates = lazy(() => import('./pages/admin/AdminAffiliates'));
+
+function PageLoader() {
+  return (
+    <div className="flex items-center justify-center min-h-[50vh]">
+      <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+}
 
 import './App.css';
 
@@ -49,6 +62,7 @@ function App() {
     <ThemeProvider>
       <BrowserRouter>
         <ScrollToTop />
+        <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
@@ -62,6 +76,8 @@ function App() {
             <Route path="blog/:slug" element={<BlogPostPage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="seo-tools" element={<SEOToolsPage />} />
+            <Route path="contact" element={<ContactPage />} />
+            <Route path="status" element={<StatusPage />} />
 
             {/* Head-to-Head Comparison Pages */}
             <Route path="compare/binance-vs-coinbase" element={<BinanceVsCoinbase />} />
@@ -91,6 +107,7 @@ function App() {
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
+        </Suspense>
       </BrowserRouter>
     </ThemeProvider>
   );

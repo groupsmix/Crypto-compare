@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Check, X, ExternalLink } from 'lucide-react';
 import SEOHead from '../components/seo/SEOHead';
+import RadarChart from '../components/RadarChart';
 import { exchanges } from '../data/exchanges';
 import { trackAffiliateClick } from '../hooks/useAffiliateTracker';
 import { Exchange } from '../types';
+
+const CHART_COLORS = ['#F97316', '#3B82F6', '#10B981', '#8B5CF6'];
 
 export default function ComparePage() {
   const [selected, setSelected] = useState<string[]>(['binance', 'bybit', 'okx']);
@@ -70,6 +73,19 @@ export default function ComparePage() {
               {exchange.name}
             </button>
           ))}
+        </div>
+
+        {/* Radar Chart */}
+        <div className="mb-10 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
+          <h2 className="text-lg font-bold text-center mb-4">Score Comparison</h2>
+          <RadarChart
+            labels={['Fees', 'Security', 'Ease of Use', 'Features', 'Support']}
+            datasets={selectedExchanges.map((e, i) => ({
+              name: e.name,
+              values: [e.feesScore, e.securityScore, e.easeOfUseScore, e.featuresScore, e.supportScore],
+              color: CHART_COLORS[i % CHART_COLORS.length],
+            }))}
+          />
         </div>
 
         {/* Comparison Table */}

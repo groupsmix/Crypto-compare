@@ -70,13 +70,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors flex items-center gap-1.5">
+                <Link to="/contact" className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors flex items-center gap-1.5">
                   <Mail className="w-3.5 h-3.5" /> Contact
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors flex items-center gap-1.5">
-                  <Shield className="w-3.5 h-3.5" /> Privacy Policy
+                <Link to="/status" className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors flex items-center gap-1.5">
+                  <Shield className="w-3.5 h-3.5" /> System Status
                 </Link>
               </li>
             </ul>

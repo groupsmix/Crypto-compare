@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, CheckCircle, ArrowRight } from 'lucide-react';
+import { api, apiPost } from '@/config/api';
 
 interface NewsletterSignupProps {
   variant?: 'inline' | 'card' | 'banner';
@@ -9,35 +10,49 @@ interface NewsletterSignupProps {
 export default function NewsletterSignup({ variant = 'card', className = '' }: NewsletterSignupProps) {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    // Validate email with a proper regex pattern
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !emailRegex.test(email)) {
       setError('Please enter a valid email address');
       return;
     }
 
-    // Store subscriber locally (replace with real email service like Mailchimp/Brevo)
-    let subscribers: string[] = [];
+    setSubmitting(true);
     try {
-      subscribers = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
+      const res = await apiPost(api.newsletterSubscribe, { email });
+      if (res.ok) {
+        setSubmitted(true);
+        setEmail('');
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data.detail || 'Something went wrong. Please try again.');
+      }
     } catch {
-      subscribers = [];
+      // Fallback to localStorage if backend is unavailable
+      let subscribers: string[] = [];
+      try {
+        subscribers = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
+      } catch {
+        subscribers = [];
+      }
+      if (subscribers.includes(email)) {
+        setError('This email is already subscribed!');
+        setSubmitting(false);
+        return;
+      }
+      subscribers.push(email);
+      localStorage.setItem('newsletter_subscribers', JSON.stringify(subscribers));
+      setSubmitted(true);
+      setEmail('');
+    } finally {
+      setSubmitting(false);
     }
-    if (subscribers.includes(email)) {
-      setError('This email is already subscribed!');
-      return;
-    }
-    subscribers.push(email);
-    localStorage.setItem('newsletter_subscribers', JSON.stringify(subscribers));
-
-    setSubmitted(true);
-    setEmail('');
   };
 
   if (submitted) {
@@ -67,9 +82,10 @@ export default function NewsletterSignup({ variant = 'card', className = '' }: N
         </div>
         <button
           type="submit"
-          className="px-4 py-2.5 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all flex items-center gap-1.5"
+          disabled={submitting}
+          className="px-4 py-2.5 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all flex items-center gap-1.5 disabled:opacity-50"
         >
-          Subscribe <ArrowRight className="w-3.5 h-3.5" />
+          {submitting ? '...' : <>Subscribe <ArrowRight className="w-3.5 h-3.5" /></>}
         </button>
         {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
       </form>
@@ -98,9 +114,10 @@ export default function NewsletterSignup({ variant = 'card', className = '' }: N
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-white text-orange-600 text-sm font-bold rounded-xl hover:bg-orange-50 transition-colors flex-shrink-0"
+              disabled={submitting}
+              className="px-6 py-3 bg-white text-orange-600 text-sm font-bold rounded-xl hover:bg-orange-50 transition-colors flex-shrink-0 disabled:opacity-50"
             >
-              Subscribe
+              {submitting ? '...' : 'Subscribe'}
             </button>
           </form>
         </div>
@@ -138,9 +155,10 @@ export default function NewsletterSignup({ variant = 'card', className = '' }: N
         {error && <p className="text-xs text-red-500 mb-2">{error}</p>}
         <button
           type="submit"
-          className="w-full py-2.5 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
+          disabled={submitting}
+          className="w-full py-2.5 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all disabled:opacity-50"
         >
-          Subscribe Free
+          {submitting ? 'Subscribing...' : 'Subscribe Free'}
         </button>
       </form>
       <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center">No spam. Unsubscribe anytime.</p>

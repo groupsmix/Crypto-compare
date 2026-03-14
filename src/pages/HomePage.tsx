@@ -1,25 +1,61 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Shield, Zap, Award, Star, ExternalLink, Users, BarChart3, TrendingUp, ChevronRight } from 'lucide-react';
 import SEOHead from '../components/seo/SEOHead';
 import { exchanges, getTopExchanges } from '../data/exchanges';
 import { trackAffiliateClick } from '../hooks/useAffiliateTracker';
+import FAQAccordion from '../components/FAQAccordion';
+import NewsletterSignup from '../components/NewsletterSignup';
 
 const topExchanges = getTopExchanges(3);
 
+const typewriterTexts = ['Perfect Crypto Exchange', 'Lowest Trading Fees', 'Most Secure Platform', 'Best Staking Rewards'];
+
 export default function HomePage() {
+  const [typeIndex, setTypeIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentText = typewriterTexts[typeIndex];
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        if (charIndex < currentText.length) {
+          setCharIndex(charIndex + 1);
+        } else {
+          setTimeout(() => setIsDeleting(true), 2000);
+        }
+      } else {
+        if (charIndex > 0) {
+          setCharIndex(charIndex - 1);
+        } else {
+          setIsDeleting(false);
+          setTypeIndex((typeIndex + 1) % typewriterTexts.length);
+        }
+      }
+    }, isDeleting ? 40 : 80);
+    return () => clearTimeout(timeout);
+  }, [charIndex, isDeleting, typeIndex]);
+
   return (
     <>
       <SEOHead
         seo={{
-          title: 'CryptoRank — Best Crypto Exchange Reviews & Comparisons 2026',
+          title: 'CryptoRanked — Best Crypto Exchange Reviews & Comparisons 2026',
           description: 'Find the best cryptocurrency exchange for your needs. Compare fees, features, and security across Binance, Bybit, OKX, Coinbase, Kraken, and more. AI-powered recommendations.',
           keywords: ['best crypto exchange', 'cryptocurrency exchange comparison', 'crypto trading platform', 'binance review', 'bybit review', 'crypto affiliate', 'exchange fees comparison'],
+          canonicalUrl: 'https://cryptoranked.xyz',
           structuredData: {
             '@context': 'https://schema.org',
             '@type': 'WebSite',
-            name: 'CryptoRank',
-            description: 'Best Crypto Exchange Reviews & Comparisons',
-            url: 'https://cryptorank.com',
+            name: 'CryptoRanked',
+            description: 'Best Crypto Exchange Reviews & Comparisons 2026',
+            url: 'https://cryptoranked.xyz',
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: 'https://cryptoranked.xyz/exchanges?q={search_term_string}',
+              'query-input': 'required name=search_term_string',
+            },
           },
         }}
       />
@@ -40,7 +76,8 @@ export default function HomePage() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
               Find the{' '}
               <span className="bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">
-                Perfect Crypto Exchange
+                {typewriterTexts[typeIndex].substring(0, charIndex)}
+                <span className="animate-pulse">|</span>
               </span>{' '}
               for You
             </h1>
@@ -314,6 +351,14 @@ export default function HomePage() {
             </p>
           </div>
         </div>
+      </section>
+
+      {/* FAQ Section */}
+      <FAQAccordion />
+
+      {/* Newsletter Banner */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <NewsletterSignup variant="banner" />
       </section>
 
       {/* CTA Section */}
