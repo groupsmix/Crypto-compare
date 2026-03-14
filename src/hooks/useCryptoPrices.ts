@@ -2,8 +2,33 @@ import { useQuery } from '@tanstack/react-query';
 import type { CryptoPrice } from '@/types';
 
 const COINGECKO_API = 'https://api.coingecko.com/api/v3';
+const API_URL = import.meta.env.VITE_API_URL || 'https://api.cryptoranked.xyz';
 
 async function fetchCryptoPrices(): Promise<CryptoPrice[]> {
+  // Try backend API first (cached, faster)
+  try {
+    const backendRes = await fetch(`${API_URL}/api/prices`, {
+      signal: AbortSignal.timeout(5000),
+    });
+    if (backendRes.ok) {
+      const data = await backendRes.json();
+      if (Array.isArray(data) && data.length > 0) {
+        return data.map((coin: { coin_id: string; symbol: string; name: string; current_price: number; price_change_24h: number; market_cap: number; image: string }) => ({
+          id: coin.coin_id,
+          symbol: coin.symbol,
+          name: coin.name,
+          current_price: coin.current_price,
+          price_change_percentage_24h: coin.price_change_24h,
+          market_cap: coin.market_cap,
+          image: coin.image,
+        }));
+      }
+    }
+  } catch {
+    // Backend unavailable, fall through to CoinGecko
+  }
+
+  // Fallback: direct CoinGecko fetch
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 10000);
   try {

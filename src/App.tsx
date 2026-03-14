@@ -35,6 +35,13 @@ import BestExchangeCanada from './pages/guides/BestExchangeCanada';
 // DCA Calculator
 import DCACalculatorPage from './pages/DCACalculatorPage';
 
+// Admin pages
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminBlog from './pages/admin/AdminBlog';
+import AdminExchanges from './pages/admin/AdminExchanges';
+import AdminAffiliates from './pages/admin/AdminAffiliates';
+
 import './App.css';
 
 function App() {
@@ -73,6 +80,14 @@ function App() {
             <Route path="best-exchange/germany" element={<BestExchangeGermany />} />
             <Route path="best-exchange/india" element={<BestExchangeIndia />} />
             <Route path="best-exchange/canada" element={<BestExchangeCanada />} />
+
+            {/* Admin Pages */}
+            <Route path="admin" element={<AdminLogin />} />
+            <Route path="admin/dashboard" element={<AdminDashboard />} />
+            <Route path="admin/blog" element={<AdminBlog />} />
+            <Route path="admin/exchanges" element={<AdminExchanges />} />
+            <Route path="admin/affiliates" element={<AdminAffiliates />} />
+
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

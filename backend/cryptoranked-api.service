@@ -1,0 +1,22 @@
+# Systemd service file for CryptoRanked API
+# Place this in /etc/systemd/system/cryptoranked-api.service
+# Then: sudo systemctl enable cryptoranked-api && sudo systemctl start cryptoranked-api
+
+[Unit]
+Description=CryptoRanked API Server
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/cryptoranked/backend
+Environment=PATH=/opt/cryptoranked/backend/venv/bin:/usr/local/bin:/usr/bin:/bin
+EnvironmentFile=/opt/cryptoranked/backend/.env
+ExecStartPre=/opt/cryptoranked/backend/venv/bin/python seed_data.py
+ExecStart=/opt/cryptoranked/backend/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
