@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models.models import BlogPost, Exchange, Affiliate, CryptoPrice, ChatMessage
+from app.models.models import BlogPost, Exchange, Affiliate, CryptoPrice, ChatMessage, NewsletterSubscriber, ContactMessage
 from app.utils.auth import verify_token
 
 router = APIRouter(prefix="/api/admin", tags=["admin"])
@@ -19,6 +19,8 @@ class DashboardStats(BaseModel):
     total_affiliate_clicks: int
     tracked_coins: int
     total_chat_sessions: int
+    newsletter_subscribers: int
+    contact_messages: int
 
 
 @router.get("/dashboard", response_model=DashboardStats)
@@ -38,6 +40,10 @@ async def get_dashboard(
     total_clicks = db.query(func.sum(Affiliate.clicks)).scalar() or 0
     tracked_coins = db.query(CryptoPrice).count()
     chat_sessions = db.query(ChatMessage.session_id).distinct().count()
+    newsletter_subs = db.query(NewsletterSubscriber).filter(
+        NewsletterSubscriber.is_subscribed == True
+    ).count()
+    contact_msgs = db.query(ContactMessage).count()
 
     return DashboardStats(
         total_blog_posts=total_posts,
@@ -49,6 +55,8 @@ async def get_dashboard(
         total_affiliate_clicks=total_clicks,
         tracked_coins=tracked_coins,
         total_chat_sessions=chat_sessions,
+        newsletter_subscribers=newsletter_subs,
+        contact_messages=contact_msgs,
     )
 
 

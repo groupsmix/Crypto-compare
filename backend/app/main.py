@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import init_db
-from app.routers import auth, prices, blog, chatbot, exchanges, affiliates, admin
+from app.routers import auth, prices, blog, chatbot, exchanges, affiliates, admin, newsletter, contact, calculator, recommender, sitemap
 from app.services.scheduler_service import start_scheduler, stop_scheduler
 
 logging.basicConfig(
@@ -57,6 +57,11 @@ app.include_router(chatbot.router)
 app.include_router(exchanges.router)
 app.include_router(affiliates.router)
 app.include_router(admin.router)
+app.include_router(newsletter.router)
+app.include_router(contact.router)
+app.include_router(calculator.router)
+app.include_router(recommender.router)
+app.include_router(sitemap.router)
 
 
 @app.get("/")
@@ -72,3 +77,30 @@ async def root():
 @app.get("/health")
 async def health():
     return {"status": "healthy"}
+
+
+@app.get("/api/status")
+async def status():
+    """System status for exchange health dashboard."""
+    from app.database import SessionLocal
+    from app.models.models import CryptoPrice, Exchange, BlogPost
+    db = SessionLocal()
+    try:
+        exchange_count = db.query(Exchange).filter(Exchange.is_active == True).count()
+        price_count = db.query(CryptoPrice).count()
+        blog_count = db.query(BlogPost).filter(BlogPost.is_published == True).count()
+        return {
+            "status": "operational",
+            "services": {
+                "api": "healthy",
+                "database": "connected",
+                "price_feed": "active" if price_count > 0 else "no_data",
+            },
+            "stats": {
+                "exchanges": exchange_count,
+                "tracked_coins": price_count,
+                "blog_posts": blog_count,
+            },
+        }
+    finally:
+        db.close()
